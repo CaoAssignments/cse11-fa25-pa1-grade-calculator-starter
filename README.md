@@ -50,7 +50,8 @@ scanner.close();                           // Close when done
 - **Makeup Policy:** Each quiz has a corresponding makeup quiz. The final quiz score is the higher of the original quiz score or the makeup quiz score
 
 **Line 3:** 1 number representing attendance points earned
-- Range: 0-18 points. For grading, attendance is capped at a maximum of 12 points (since 6 participation points are already dropped).
+- Range: 0-16 points (total lectures: 9 weeks × 2 lectures/week, minus midterm day and Thanksgiving)
+- For grading, attendance is capped at a maximum of 10 points (we drop the lowest 6 lecture attendances)
 
 **Line 4:** 1 number representing midterm score (as a percentage)
 - Range: 0-100
@@ -64,7 +65,7 @@ scanner.close();                           // Close when done
 **Input Validation:**
 - If any PA score (original or resubmission) is less than 0 or greater than the maximum for that PA (10 for PA0, 100 for PA1-PA8), print `invalid input`
 - If any quiz score (original or makeup) is less than 0 or greater than 100, print `invalid input`
-- If attendance is less than 0 or greater than 18, print `invalid input`
+- If attendance is less than 0 or greater than 16, print `invalid input`
 - If midterm score is less than 0 or greater than 100, print `invalid input`
 - If either final exam score (part 1 or total) is less than 0 or greater than 100, print `invalid input`
 
@@ -91,8 +92,8 @@ Follow these steps to calculate the final grade:
    - Quiz percentage = `(sum of final quiz scores) / 3`
 
 4. **Calculate Attendance Percentage:**
-   - Capped attendance = `MIN(attendance, 12)`
-   - Attendance percentage = `(capped_attendance / 12) * 100`
+   - Capped attendance = `MIN(attendance, 10)`
+   - Attendance percentage = `(capped_attendance / 10) * 100`
 
 5. **Calculate Midterm Score (considering final part 1 replacement):**
    - Midterm score used = `MAX(midterm, final_part1)`
@@ -137,7 +138,7 @@ Write the output to the standard output, which prints the overall score in the f
     > java GradeCalculator
     10 0 100 0 100 0 100 0 100 0 100 0 100 0 100 0 100 0
     100 100 100 100 100 100
-    12
+    10
     100
     100 100
     ```
@@ -145,7 +146,7 @@ Write the output to the standard output, which prints the overall score in the f
       - PA0=10, resub=0; PA1=100, resub=0; ... PA8=100, resub=0 (all perfect, no resubmissions needed)
     - Line 2: Quiz scores in pairs (quiz1 makeup1 quiz2 makeup2 quiz3 makeup3)
       - All quizzes=100, all makeups=100
-    - Line 3: Attendance=12 (maximum after dropping)
+    - Line 3: Attendance=10 (maximum that counts toward grade)
     - Line 4: Midterm=100
     - Line 5: Final part1=100, final total=100
     
@@ -188,16 +189,16 @@ Write the output to the standard output, which prints the overall score in the f
     
 - Output
     ```
-    86.89135802469136
+    88.55802469135803
     B
     ```
     - PA: PA0 = 8, PA1-8 = 85 + 70 + 70 + 92.5 + 87.5 + 80 + 85 + 97.5 = 667.5
     - Total PA points = 8 + 667.5 = 675.5, PA percentage = 675.5/810 * 100 = 83.39506...%
     - Quiz: (90 + 95 + 85) / 3 = 90% (quizzes are already percentages)
-    - Attendance: 10/12 * 100 = 83.33333...%
+    - Attendance: 10/10 * 100 = 100%
     - Midterm: 88 (replaced by final part 1 since 88 > 75)
     - Final: 92 (final total percentage)
-    - Overall: 83.33333 * 0.1 + 83.39506 * 0.4 + 90 * 0.1 + 88 * 0.15 + 92 * 0.25 ≈ 86.89136
+    - Overall: 100 * 0.1 + 83.39506 * 0.4 + 90 * 0.1 + 88 * 0.15 + 92 * 0.25 ≈ 88.55802
 
 #### Example 3 - Invalid Input (PA score too high)
 
@@ -251,7 +252,7 @@ Write the output to the standard output, which prints the overall score in the f
     ```
     invalid input
     ```
-    *Note: Attendance is 20 which exceeds the maximum of 18*
+    *Note: Attendance is 20 which exceeds the maximum of 16*
 
 ### Testing
 Try the example inputs described above. Do you get the same results as their corresponding outputs? Now try some of your own inputs, do you get the results you would expect?
