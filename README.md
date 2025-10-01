@@ -17,9 +17,10 @@ Your file should be named as `GradeCalculator.java` and contains a single class 
 
 There are a few restrictions on the implementation. 
 - You should not import anything other than `java.util.Scanner`. If you import any other libraries, you may get a 0 for this part, even though if you had passed all the test cases.
-- Please do not create multiple `Scanner` objects for `System.in`. They’ll fight each other to get the input and cause all of your test cases to fail.
+- Please do not create multiple `Scanner` objects for `System.in`. They'll fight each other to get the input and cause all of your test cases to fail.
 - You should not use `System.exit`. Doing so will cause Autograder to throw exceptions and you'll get "EXCEPT" for all of your test cases.
-- You should not print any prompt (e.g. “please enter your score”).
+- You should not print any prompt (e.g. "please enter your score").
+- **Do not declare instance variables or non-final static variables.** All your variables should be declared inside the `main` method (local variables). If you want to use constants, they must be declared as `private static final`.
 
 To get started on this PA, Create a folder for "PA1" at the location of your choice and open that folder in Visual Studio Code (VS Code). Then create a class named `GradeCalculator` with a `main` method and save it as `GradeCalculator.java`.
 
@@ -124,7 +125,7 @@ Follow these steps to calculate the final grade:
 
 #### Output
 
-Write the output to the standard output, which prints the overall score in the first line and the letter grade in the second line. There should be a **newline character** at the end of line. 
+Write the output to the standard output, which prints the overall score (formatted to **exactly 2 decimal places**) in the first line and the letter grade in the second line. There should be a **newline character** at the end of line. 
 **Note:** `System.out.println()` method prints the text on the console and the cursor remains at the start of the next line at the console (i.e. it appends a newline character at the end of the line, so you **do not** need to add a newline character by yourself if you are using `System.out.println`). 
 **Please follow the exact output format, or otherwise you will not get any credit.**
 
@@ -152,7 +153,7 @@ Write the output to the standard output, which prints the overall score in the f
     
 - Output
     ```
-    100.0
+    100.00
     A
     ```
     - PA percentage: 100%, Quiz percentage: 100%, Attendance: 100%, Midterm: 100, Final: 100
@@ -189,7 +190,7 @@ Write the output to the standard output, which prints the overall score in the f
     
 - Output
     ```
-    88.55802469135803
+    88.56
     B
     ```
     - PA: PA0 = 8, PA1-8 = 85 + 70 + 70 + 92.5 + 87.5 + 80 + 85 + 97.5 = 667.5
@@ -198,7 +199,7 @@ Write the output to the standard output, which prints the overall score in the f
     - Attendance: 10/10 * 100 = 100%
     - Midterm: 88 (replaced by final part 1 since 88 > 75)
     - Final: 92 (final total percentage)
-    - Overall: 100 * 0.1 + 83.39506 * 0.4 + 90 * 0.1 + 88 * 0.15 + 92 * 0.25 ≈ 88.55802
+    - Overall: 100 * 0.1 + 83.39506 * 0.4 + 90 * 0.1 + 88 * 0.15 + 92 * 0.25 ≈ 88.56
 
 #### Example 3 - Invalid Input (PA score too high)
 
