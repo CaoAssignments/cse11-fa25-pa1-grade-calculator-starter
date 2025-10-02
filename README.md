@@ -64,13 +64,14 @@ scanner.close();                           // Close when done
 - If final part 1 percentage > midterm percentage, it replaces the midterm score
 
 **Input Validation:**
-- If any PA score (original or resubmission) is less than 0 or greater than the maximum for that PA (10 for PA0, 100 for PA1-PA8), print `invalid input`
-- If any quiz score (original or makeup) is less than 0 or greater than 100, print `invalid input`
-- If attendance is less than 0 or greater than 16, print `invalid input`
-- If midterm score is less than 0 or greater than 100, print `invalid input`
-- If either final exam score (part 1 or total) is less than 0 or greater than 100, print `invalid input`
+- **IMPORTANT:** You must validate each input value **immediately** as you read it, before reading any subsequent values
+- If any PA score (original or resubmission) is less than 0 or greater than the maximum for that PA (10 for PA0, 100 for PA1-PA8), print `invalid input` and **immediately return**
+- If any quiz score (original or makeup) is less than 0 or greater than 100, print `invalid input` and **immediately return**
+- If attendance is less than 0 or greater than 16, print `invalid input` and **immediately return**
+- If midterm score is less than 0 or greater than 100, print `invalid input` and **immediately return**
+- If either final exam score (part 1 or total) is less than 0 or greater than 100, print `invalid input` and **immediately return**
 
-As soon as any invalid score is encountered, the program should print `invalid input` and terminate without further processing.
+**Critical:** As soon as any invalid score is encountered, the program must print `invalid input` and terminate **without reading any more input values**.
 
 #### Calculation
 
@@ -207,17 +208,17 @@ Write the output to the standard output, which prints the overall score (formatt
     ```
     > java GradeCalculator
     10 0 110 0 100 0 100 0 100 0 100 0 100 0 100 0 100 0
-    100 100 100 100 100 100
-    12
-    100
-    100 100
+    INVALID_DATA_SHOULD_NOT_BE_READ
+    INVALID_DATA_SHOULD_NOT_BE_READ
+    INVALID_DATA_SHOULD_NOT_BE_READ
+    INVALID_DATA_SHOULD_NOT_BE_READ
     ```
 
 - Output
     ```
     invalid input
     ```
-    *Note: PA1 score is 110 which exceeds 100, so the program immediately outputs "invalid input"*
+    *Note: PA1 score is 110 which exceeds 100. The program must **immediately** validate this and output "invalid input" after reading the first line, **without attempting to read lines 2-5**. If you try to read the subsequent lines (which contain non-numeric text), your program will crash!*
 
 #### Example 4 - Invalid Input (PA0 score too high)
 
@@ -225,17 +226,17 @@ Write the output to the standard output, which prints the overall score (formatt
     ```
     > java GradeCalculator
     15 0 100 0 100 0 100 0 100 0 100 0 100 0 100 0 100 0
-    100 100 100 100 100 100
-    12
-    100
-    100 100
+    INVALID_DATA_SHOULD_NOT_BE_READ
+    INVALID_DATA_SHOULD_NOT_BE_READ
+    INVALID_DATA_SHOULD_NOT_BE_READ
+    INVALID_DATA_SHOULD_NOT_BE_READ
     ```
 
 - Output
     ```
     invalid input
     ```
-    *Note: PA0 score is 15 which exceeds the maximum of 10, so the program immediately outputs "invalid input"* 
+    *Note: PA0 score is 15 which exceeds the maximum of 10. The program must **immediately** validate and return after reading just the first value, **without reading any more values**.* 
 
 #### Example 5 - Invalid Input (Attendance too high)
 
@@ -245,17 +246,44 @@ Write the output to the standard output, which prints the overall score (formatt
     10 0 100 0 100 0 100 0 100 0 100 0 100 0 100 0 100 0
     100 100 100 100 100 100
     20
-    100
-    100 100
+    INVALID_DATA_SHOULD_NOT_BE_READ
+    INVALID_DATA_SHOULD_NOT_BE_READ
     ```
 
 - Output
     ```
     invalid input
     ```
-    *Note: Attendance is 20 which exceeds the maximum of 16*
+    *Note: Attendance is 20 which exceeds the maximum of 16. After successfully reading lines 1-2, the program reads the attendance value on line 3, detects it's invalid, and must **immediately** output "invalid input" and return **without reading lines 4-5**.*
 
 ### Testing
+
+#### Testing with Keyboard Input
+You can test your program by typing input manually in the terminal:
+```bash
+java GradeCalculator
+# Then type your inputs line by line
+```
+
+#### Testing with File Redirection (Recommended)
+Instead of typing inputs manually every time, you can use **file redirection** to read input from a file. This is much more efficient for testing!
+
+**How to use file redirection:**
+1. Create a text file (e.g., `test.in`) with your test inputs
+2. Run your program with the `<` operator:
+   ```bash
+   java GradeCalculator < test.in
+   ```
+
+**Example test files** are provided in the `starter/` directory:
+- `test_perfect.in` - Perfect student (should output 100.00 A)
+- `test_resubmissions.in` - Student with resubmissions (should output 88.56 B)
+- `test_invalid_pa.in` - Invalid PA score (should output "invalid input" and stop immediately)
+- `test_invalid_pa0.in` - Invalid PA0 score (should output "invalid input" and stop immediately)
+- `test_invalid_attendance.in` - Invalid attendance (should output "invalid input" and stop immediately)
+
+**Note:** The invalid test files contain non-numeric data on lines that should NOT be read. If your program tries to read past the invalid input, it will crash with an error. This confirms you're validating input immediately as required!
+
 Try the example inputs described above. Do you get the same results as their corresponding outputs? Now try some of your own inputs, do you get the results you would expect?
 
 ## Submission
