@@ -50,9 +50,10 @@ scanner.close();                           // Close when done
 - Each quiz is out of 100 points (percentages)
 - **Makeup Policy:** Each quiz has a corresponding makeup quiz. The final quiz score is the higher of the original quiz score or the makeup quiz score
 
-**Line 3:** 1 number representing attendance points earned
+**Line 3:** 1 integer representing attendance points earned (**must be an integer, not a decimal**)
 - Range: 0-16 points (total lectures: 9 weeks × 2 lectures/week, minus midterm day and Thanksgiving)
 - For grading, attendance is capped at a maximum of 10 points (we drop the lowest 6 lecture attendances)
+- **Note:** All other scores (PAs, quizzes, exams) may be decimal values, but attendance must be a whole number (integer)
 
 **Line 4:** 1 number representing midterm score (as a percentage)
 - Range: 0-100
@@ -67,7 +68,7 @@ scanner.close();                           // Close when done
 - **IMPORTANT:** You must validate each input value **immediately** as you read it, before reading any subsequent values
 - If any PA score (original or resubmission) is less than 0 or greater than the maximum for that PA (10 for PA0, 100 for PA1-PA8), print `invalid input` and **immediately return**
 - If any quiz score (original or makeup) is less than 0 or greater than 100, print `invalid input` and **immediately return**
-- If attendance is less than 0 or greater than 16, print `invalid input` and **immediately return**
+- If attendance is less than 0 or greater than 16, **or if it is not an integer** (e.g., 10.5), print `invalid input` and **immediately return**
 - If midterm score is less than 0 or greater than 100, print `invalid input` and **immediately return**
 - If either final exam score (part 1 or total) is less than 0 or greater than 100, print `invalid input` and **immediately return**
 
@@ -220,25 +221,7 @@ Write the output to the standard output, which prints the overall score (formatt
     ```
     *Note: PA1 score is 110 which exceeds 100. The program must **immediately** validate this and output "invalid input" after reading the first line, **without attempting to read lines 2-5**. If you try to read the subsequent lines (which contain non-numeric text), your program will crash!*
 
-#### Example 4 - Invalid Input (PA0 score too high)
-
-- Input
-    ```
-    > java GradeCalculator
-    15 0 100 0 100 0 100 0 100 0 100 0 100 0 100 0 100 0
-    INVALID_DATA_SHOULD_NOT_BE_READ
-    INVALID_DATA_SHOULD_NOT_BE_READ
-    INVALID_DATA_SHOULD_NOT_BE_READ
-    INVALID_DATA_SHOULD_NOT_BE_READ
-    ```
-
-- Output
-    ```
-    invalid input
-    ```
-    *Note: PA0 score is 15 which exceeds the maximum of 10. The program must **immediately** validate and return after reading just the first value, **without reading any more values**.* 
-
-#### Example 5 - Invalid Input (Attendance too high)
+#### Example 4 - Invalid Input (Attendance too high)
 
 - Input
     ```
@@ -276,11 +259,13 @@ Instead of typing inputs manually every time, you can use **file redirection** t
    ```
 
 **Example test files** are provided in the `starter/` directory:
-- `test_perfect.in` - Perfect student (should output 100.00 A)
-- `test_resubmissions.in` - Student with resubmissions (should output 88.56 B)
-- `test_invalid_pa.in` - Invalid PA score (should output "invalid input" and stop immediately)
-- `test_invalid_pa0.in` - Invalid PA0 score (should output "invalid input" and stop immediately)
-- `test_invalid_attendance.in` - Invalid attendance (should output "invalid input" and stop immediately)
+- `test_perfect.in` - Perfect student (should output `100.00 A`)
+- `test_resubmissions.in` - Student with resubmissions (should output `88.56 B`)
+- `test_valid_with_decimals.in` - Valid test with decimal scores for PAs, quizzes, and exams (should output `91.74 A`)
+- `test_invalid_pa.in` - Invalid PA score exceeding 100 (should output `invalid input`)
+- `test_invalid_pa0.in` - Invalid PA0 score exceeding 10 (should output `invalid input`)
+- `test_invalid_attendance.in` - Invalid attendance exceeding 16 (should output `invalid input`)
+- `test_invalid_attendance_decimal.in` - Invalid decimal attendance like 10.5 (should output `invalid input`)
 
 **Note:** The invalid test files contain non-numeric data on lines that should NOT be read. If your program tries to read past the invalid input, it will crash with an error. This confirms you're validating input immediately as required!
 
